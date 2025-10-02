@@ -1,0 +1,136 @@
+<!--
+Mini sito "Per Mamma" - template single-file
+Come usare:
+  1) Sostituisci i testi sotto (TITLE_TEXT, DESCRIPTION_TEXT) dentro il file.
+  2) Aggiungi la canzone:
+     - Opzione A (consigliata se il file è personale): carica un file MP3 nella cartella /audio e mantieni il <audio> tag con src="audio/song.mp3" (sostituisci il nome).
+     - Opzione B (più semplice per canzoni commerciali): usa l'embed di Spotify. Per farlo, copia l'URL della traccia Spotify e sostituisci TRACK_ID nella stringa dell'iframe (vedi commento sotto). Commenta/elimna il tag <audio> se usi Spotify.
+  3) Pubblica il file su GitHub Pages (o Netlify/Vercel). Per GitHub Pages: crea un repo, metti index.html nella root, vai in Settings → Pages e scegli branch main / root.
+  4) Dopo la pubblicazione apri la pagina e usa il pulsante "Genera/Scarica QR" per ottenere un PNG ad alta risoluzione del QR code (1200x1200 px) pronto per la stampa.
+Note:
+  - I browser bloccano spesso l'autoplay: l'utente dovrà premere Play manualmente.
+  - Assicurati di avere i diritti per pubblicare l'mp3 se è protetto da copyright. L'embed di Spotify è comodo perché la traccia resta sui server Spotify.
+-->
+
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Per Mamma — Apri qui</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg1:#f7f9fc;--card:#ffffff;--accent:#f6d365;--accent2:#fda085;--muted:#6b7280}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial; background: linear-gradient(180deg,var(--bg1),#eef2f6)}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+    .card{width:100%;max-width:820px;background:var(--card);border-radius:14px;box-shadow:0 8px 30px rgba(15,23,42,0.08);padding:28px;display:grid;grid-template-columns:1fr 280px;gap:20px}
+    @media (max-width:820px){.card{grid-template-columns:1fr;}}
+    .hero{display:flex;flex-direction:column;gap:12px}
+    h1{margin:0;font-size:2.1rem;line-height:1.05}
+    p.lead{margin:0;color:var(--muted);font-size:1rem}
+    .audio-box{margin-top:8px}
+    audio{width:100%;height:48px}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .qr-card{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid #f1f5f9;padding-left:18px}
+    @media (max-width:820px){.qr-card{border-left:none;padding-left:0;padding-top:6px}}
+    .qr-img{width:220px;height:220px;object-fit:contain;border-radius:8px;background:white;padding:8px;box-shadow:0 4px 14px rgba(2,6,23,0.06)}
+    .btn{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent2));color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600;cursor:pointer;border:none}
+    .mutebtn{background:transparent;color:var(--muted);border:1px solid #e6edf3;padding:8px 12px;border-radius:10px}
+    footer{margin-top:18px;font-size:0.85rem;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main" aria-labelledby="title">
+      <section class="hero">
+        <!-- PERSONALIZZA QUI -->
+        <h1 id="title"> Per la mia mamma</h1>
+        <p class="lead" id="description"> clicca sul tasto play!
+        </p>
+
+        <!-- Opzione A: file audio locale (metti l'mp3 nella cartella /audio e sostituisci il nome) -->
+        <div class="audio-box">
+          <label for="audio" class="small">Ascolta la canzone scelta</label>
+          <audio id="audio" controls preload="none" aria-label="Player audio per la canzone dedicata">
+            <source src="audio/song.mp3" type="audio/mpeg">
+            Il tuo browser non supporta l'elemento audio. <a id="audio-fallback" href="#">Apri la canzone</a>
+          </audio>
+          <div class="small" style="margin-top:8px">Suggerimento: molti browser non permettono l'autoplay — premi Play.</div>
+        </div>
+
+        <!-- Opzione B: Spotify embed (se preferisci Spotify, sostituisci TRACK_ID e commenta/ rimuovi il tag audio sopra)
+        <iframe src="https://open.spotify.com/embed/track/TRACK_ID" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        -->
+
+        <footer>
+          <div class="small">Una dedica semplice: puoi aggiungere un testo più lungo o qualche foto sostituendo il markup qui.</div>
+        </footer>
+      </section>
+
+      <aside class="qr-card" aria-label="Sezione QR code">
+        <img id="qr-img" class="qr-img" alt="QR code per aprire questa pagina" src="" />
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:10px;flex-direction:column;align-items:center;width:100%">
+          <button id="download-qr" class="btn" type="button">Genera e Scarica QR (alta risoluzione)</button>
+          <a id="direct-open" class="mutebtn" target="_blank" rel="noopener">Apri pagina (nuova scheda)</a>
+          <div class="small">Consiglio stampa: usa il PNG 1200×1200 px e in stampa mantieni il QR almeno 3 cm di lato per sicurezza.</div>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <script>
+    // --- Configuration: modifica questi valori dal file se vuoi personalizzare senza toccare l'HTML ---
+    // (Puoi anche cambiare direttamente il testo dentro <h1> e <p id="description"> nel markup)
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const qrImg = document.getElementById('qr-img');
+      const downloadBtn = document.getElementById('download-qr');
+      const openBtn = document.getElementById('direct-open');
+      const audioFallback = document.getElementById('audio-fallback');
+
+      // Usa l'URL corrente (quando il sito è pubblicato) per generare il QR
+      const pageUrl = window.location.href;
+      const qrApi = u => `https://api.qrserver.com/v1/create-qr-code/?size=1200x1200&data=${encodeURIComponent(u)}`;
+
+      // Mostra il QR e imposta il link di apertura
+      function updateQR(){
+        qrImg.src = qrApi(pageUrl);
+        openBtn.href = pageUrl;
+      }
+
+      updateQR();
+
+      // Scarica il PNG (fetch + blob -> download)
+      downloadBtn.addEventListener('click', async () => {
+        try{
+          downloadBtn.disabled = true; downloadBtn.textContent = 'Preparo il QR...';
+          const resp = await fetch(qrImg.src);
+          const blob = await resp.blob();
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'qr-per-mamma.png';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }catch(e){
+          alert('Errore nel generare il QR. Prova a copiare manualmente l\'URL e usa un generatore di QR esterno.');
+        }finally{
+          downloadBtn.disabled = false; downloadBtn.textContent = 'Genera e Scarica QR (alta risoluzione)';
+        }
+      });
+
+      // Fallback link sull'audio (apre il file o la risorsa in una nuova scheda)
+      audioFallback.addEventListener('click', (ev)=>{
+        ev.preventDefault();
+        const src = document.querySelector('#audio source')?.src || pageUrl;
+        window.open(src, '_blank');
+      });
+
+      // Se vuoi che il QR punti a un URL diverso (es. pagina GitHub Pages pubblica), cambia 'pageUrl' qui o ricarica la pagina dalla URL pubblica.
+
+    });
+  </script>
+</body>
+</html>
