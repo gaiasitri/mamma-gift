@@ -37,6 +37,17 @@ Note:
     .btn{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent2));color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600;cursor:pointer;border:none}
     .mutebtn{background:transparent;color:var(--muted);border:1px solid #e6edf3;padding:8px 12px;border-radius:10px}
     footer{margin-top:18px;font-size:0.85rem;color:var(--muted)}
+    .image-card {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;}
+  .decor-img {
+    max-width: 300px;        /* dimensione massima */
+    border-radius: 15px;     /* bordi arrotondati */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* ombra leggera */
+    transition: transform 0.3s ease; /* effetto hover */}
+  .decor-img:hover {
+    transform: scale(1.05); /* ingrandimento leggero al passaggio del mouse */}
   </style>
 </head>
 <body>
@@ -50,12 +61,12 @@ Note:
 
         <!-- Opzione A: file audio locale (metti l'mp3 nella cartella /audio e sostituisci il nome) -->
         <div class="audio-box">
-          <label for="audio" class="small">Ascolta la canzone scelta</label>
+          <!--<label for="audio" class="small">Ascolta la canzone scelta</label> -->
           <audio id="audio" controls preload="none" aria-label="Player audio per la canzone dedicata">
             <source src="song.mp3" type="audio/mpeg">
             Il tuo browser non supporta l'elemento audio. <a id="audio-fallback" href="#">Apri la canzone</a>
           </audio>
-          <div class="small" style="margin-top:8px">Suggerimento: molti browser non permettono l'autoplay — premi Play.</div>
+          <!-- <div class="small" style="margin-top:8px">Suggerimento: molti browser non permettono l'autoplay — premi Play.</div> -->
         </div>
 
         <!-- Opzione B: Spotify embed (se preferisci Spotify, sostituisci TRACK_ID e commenta/ rimuovi il tag audio sopra)
@@ -63,18 +74,12 @@ Note:
         -->
 
         <footer>
-          <div class="small">Una dedica semplice: puoi aggiungere un testo più lungo o qualche foto sostituendo il markup qui.</div>
+          <div class="small">Anche quando fuori infuriava la tempesta mi cullavi con la melodia della tua voce... le carezze piene d'affetto... e i baci sulla mia testa colmi d'amore </div>
         </footer>
       </section>
 
-      <aside class="qr-card" aria-label="Sezione QR code">
-        <img id="qr-img" class="qr-img" alt="QR code per aprire questa pagina" src="" />
-        <div style="height:12px"></div>
-        <div style="display:flex;gap:10px;flex-direction:column;align-items:center;width:100%">
-          <button id="download-qr" class="btn" type="button">Genera e Scarica QR (alta risoluzione)</button>
-          <a id="direct-open" class="mutebtn" target="_blank" rel="noopener">Apri pagina (nuova scheda)</a>
-          <div class="small">Consiglio stampa: usa il PNG 1200×1200 px e in stampa mantieni il QR almeno 3 cm di lato per sicurezza.</div>
-        </div>
+      <aside class="image-card" aria-label="Immagine decorativa">
+        <img src="foto_mamma.png" alt="Foto decorativa per mamma" class="decor-img" />
       </aside>
 
     </main>
